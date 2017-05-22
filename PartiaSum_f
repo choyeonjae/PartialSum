@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define PI 3.1415922653
+
+void main(int argc, char *argv[])
+{
+	double x[20], y[20], s[20];
+	int n;
+	int A, B;
+	int i, j;
+	int a, b;
+	double sum, max_sum;
+	
+	A = atoi(argv[1]);
+	B = atoi(argv[2]);
+
+	for (n = 0; n < 20; n++)
+	{
+		x[n] = pow(-1, n)*(exp(n - A) + 70);
+		y[n] = 4000 * cos(2 * PI * (n - 1) / B);
+
+		s[n] = x[n] + y[n];
+	}
+
+	sum = max_sum = s[0];
+
+	for (i = 0; i < 20; i++)
+	{
+		sum = s[i];
+
+		for (j = i + 1; j < 20; j++)
+		{
+			sum += s[j];
+
+			if (max_sum < sum)
+			{
+				max_sum = sum;
+				a = i;
+				b = j;
+			}
+		}
+	}
+
+	for (n = 0; n < 20; n++)
+		printf("%5d %15.3lf %15.3lf %15.3lf \n",n, x[n], y[n], s[n]);
+	
+	printf("최대 연속 부분합: %.3lf  from s[%d] to s[%d] \n", max_sum, a, b);
+}
